@@ -70,42 +70,59 @@ export function generateUsername(firstName: string, lastName: string): string {
   return "";
 }
 
-export function generatePassword(difficulty: string) : string {
+export function generatePassword(difficulty: string): string {
   let length;
-  let characters;
+  let characters = "";
 
   switch (difficulty) {
-      case 'easy':
-          length = 6; // Short length
-          characters = 'abcdefghijklmnopqrstuvwxyz'; // Lowercase letters
-          break;
-      case 'medium':
-          length = 10; // Moderate length
-          characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Letters and digits
-          break;
-      case 'hard':
-          length = 20; // Longer length
-          characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?'; // Letters, digits, and symbols
-          break;
-      default:
-          throw new Error("Invalid difficulty level. Choose 'easy', 'medium', or 'hard'.");
+    case "easy":
+      length = 8;
+      characters = "abcdefghijklmnopqrstuvwxyz";
+      break;
+    case "medium":
+      length = 12;
+      characters =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      break;
+    case "hard":
+      length = 20;
+      characters =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
+      break;
+    default:
+      throw new Error(
+        "Invalid difficulty level. Choose 'easy', 'medium', or 'hard'."
+      );
   }
 
-  let password = '';
-  for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      password += characters[randomIndex];
+  let password = "";
+
+  if (difficulty !== "easy") {
+    password += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 26)]; 
+    password += "0123456789"[Math.floor(Math.random() * 10)];
+    password += "!@#$%^&*()_+-=[]{}|;:,.<>?"[Math.floor(Math.random() * 32)];
   }
+  
+  for (let i = password.length; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    password += characters[randomIndex];
+  }
+
+  // Shuffle the password to ensure randomness
+  password = password
+    .split("")
+    .sort(() => Math.random() - 0.5)
+    .join("");
 
   return password;
 }
 
 // Example usage
 try {
-  const easyPassword = generatePassword('easy');
-  const mediumPassword = generatePassword('medium');
-  const hardPassword = generatePassword('hard');
-  
+  const easyPassword = generatePassword("easy");
+  const mediumPassword = generatePassword("medium");
+  const hardPassword = generatePassword("hard");
+
   console.log(`Easy Password: ${easyPassword}`);
   console.log(`Medium Password: ${mediumPassword}`);
   console.log(`Hard Password: ${hardPassword}`);
