@@ -19,6 +19,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "crypto": "^1.0.1"
+    "crypto": "^1.0.1",
+    "libphonenumber-js": "^1.11.12"
   }
 }
