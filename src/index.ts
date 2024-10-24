@@ -11,21 +11,18 @@ const passwordRegex =
   /^(?=.*[0-9])(?=.*[!@#$%^&*?_\-.,?!:;'“”()\[\]{}+\-×*÷\/=$&*@#%^_|/<>=])[a-zA-Z0-9!@#$%^&*?_\-.,?!:;'“”()\[\]{}+\-×*÷\/=$&*@#%^_|/<>=]{8,30}$/;
 
 // Utility function to generate secure random bytes
-export function secureRandomBytes(length: number): string {
-  return randomBytes(length).toString("hex").slice(0, length);
-}
-
 export function generateRandomNumber(length: number): number {
-  if (length < 4) {
-    throw new Error("Length must be greater or equal to 4");
+  if (length < 1) {
+    throw new Error("Length must be greater or equal to 1");
   }
 
-  const min = Math.pow(10, length - 1);
-  const max = Math.pow(10, length) - 1;
+  const min = Math.pow(10, length - 1); 
+  const max = Math.pow(10, length) - 1; 
 
-  const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+  const randomValue = randomBytes(Math.ceil(length / 2)).toString("hex"); 
+  let randomNumber = (parseInt(randomValue, 16) % (max - min + 1)) + min;
 
-  return randomNum;
+  return randomNumber;
 }
 
 export function generateAlphanumericWord(
@@ -156,7 +153,7 @@ export function isValidPassword(password: string): boolean {
 
 // Example usage
 try {
-  const easyPassword = generateAlphanumericWithSymbols(30);
+  const easyPassword = generateRandomNumber(4);
 
   console.log(`Easy Password11: ${easyPassword}`);
 } catch (error: any) {
