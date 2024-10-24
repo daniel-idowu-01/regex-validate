@@ -1,10 +1,11 @@
 {
-  "name": "firstnpm",
+  "name": "randomizer",
   "version": "1.0.0",
   "description": "A package to generate numbers",
-  "main": "src/server.js",
+  "main": "dist/index.js",
+  "types": "dist/index.js",
   "scripts": {
-    "build": "npx tsc && node ./dist/index.js",
+    "build": "tsc && node ./dist/index.js",
     "dev": "node ./dist/index.js",
     "test": "jest"
   },
@@ -16,5 +17,8 @@
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1"
   }
 }
