@@ -42,6 +42,7 @@ export default class Randomizer {
     length: number,
     characters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?"
   ): Promise<string> {
+    let result= '';
     if (length < 4) {
       throw new Error("Length must be greater or equal to 4");
     }
@@ -49,16 +50,16 @@ export default class Randomizer {
     const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
     const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     // Ensure at least one symbol is included
-    let result = symbols[Math.floor(Math.random() * symbols.length)];
+    //result = symbols[Math.floor(Math.random() * symbols.length)];
 
     for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
       result += characters[randomIndex];
     }
 
-    if (!this.alphabetRegex.test(result[0])) {
+    /* if (!this.alphabetRegex.test(result[0])) {
       result = alphabets[Math.floor(Math.random() * alphabets.length)] + result;
-    }
+    } */
 
     return result;
   }
