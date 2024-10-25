@@ -34,7 +34,7 @@ import Randomizer from 'randomizer-val';
 const randomizer = new Randomizer();
 
 ```
-Generating Random Numbers
+### Generating Random Numbers
 
 Generate a random number of specified length:
 
@@ -42,7 +42,7 @@ Generate a random number of specified length:
 const randomNumber = await randomizer.generateRandomNumber(5);
 console.log(randomNumber); // Example output: 12345
 ```
-Generating Alphanumeric Words
+### Generating Alphanumeric Words
 
 Generate a random alphanumeric word of specified length (minimum 4):
 
@@ -50,7 +50,7 @@ Generate a random alphanumeric word of specified length (minimum 4):
 const alphanumericWord = await randomizer.generateAlphanumericWord(6);
 console.log(alphanumericWord); // Example output: Ab3dFg
 ```
-Generating Alphanumeric Words with Symbols
+### Generating Alphanumeric Words with Symbols
 
 Generate a random alphanumeric word with symbols:
 
@@ -58,7 +58,7 @@ Generate a random alphanumeric word with symbols:
 const wordWithSymbols = await randomizer.generateAlphanumericWithSymbols(10);
 console.log(wordWithSymbols); // Example output: Ab#3$Fg9!2
 ```
-Generating Usernames
+### Generating Usernames
 
 Generate a username based on the provided first and last name:
 
@@ -66,7 +66,7 @@ Generate a username based on the provided first and last name:
 const username = await randomizer.generateUsername('John', 'Doe');
 console.log(username); // Example output: johndoe123
 ```
-Generating Passwords
+### Generating Passwords
 
 Generate passwords with different difficulty levels:
 
@@ -78,7 +78,7 @@ Hard: 20 characters
 const password = await randomizer.generatePassword('medium');
 console.log(password); // Example output: AbC123XyZ78!
 ```
-Validating Email
+### Validating Email
 
 Validate an email format:
 
@@ -86,7 +86,7 @@ Validate an email format:
 const isValidEmail = await randomizer.isEmail('test@example.com');
 console.log(isValidEmail); // true
 ```
-Validating Password
+### Validating Password
 
 Check if a password is valid based on the package’s criteria (...)
 
@@ -94,7 +94,7 @@ Check if a password is valid based on the package’s criteria (...)
 const isValidPassword = await randomizer.isValidPassword('Password1!');
 console.log(isValidPassword); // true
 ```
-Validating Phone Number
+### Validating Phone Number
 
 Validate if a given phone number is a valid US number:
 
