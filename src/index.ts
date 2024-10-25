@@ -1,156 +1,124 @@
-import { parsePhoneNumber } from "libphonenumber-js";
+export class Validator {
+  // Regular expressions
+  private alphabetRegex: RegExp = /^[a-zA-Z]$/;
+  private emailRegex: RegExp =
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  private passwordRegex: RegExp =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+  private usernameRegex: RegExp = /^[a-zA-Z0-9_]{3,16}$/;
+  private urlRegex: RegExp =
+    /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-])\/?$/;
+  private phoneRegex: RegExp =
+    /^\+?1?\s*\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/;
+  private dateRegex: RegExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+  private timeRegex: RegExp = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+  private ipRegex: RegExp =
+    /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  private hexColorRegex: RegExp = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
+  private creditCardRegex: RegExp =
+    /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})$/;
+  private zipCodeRegex: RegExp = /^\d{5}(-\d{4})?$/;
+  private ssnRegex: RegExp =
+    /^(?!000|666)[0-8][0-9]{2}-(?!00)[0-9]{2}-(?!0000)[0-9]{4}$/;
+  private ipv6Regex: RegExp =
+    /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
+  private windowsPathRegex: RegExp =
+    /^[a-zA-Z]:\\(?:[^\\/:?"<>|\r\n]+\\)[^\\/:?"<>|\r\n]$/;
+  private unixPathRegex: RegExp = /^(\/[^/ ]*)+\/?$/;
+  private slugRegex: RegExp = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  private htmlTagRegex: RegExp = /<[^>]*>/g;
+  private lettersAndSpacesRegex: RegExp = /^[A-Za-z\s]*$/;
+  private numbersOnlyRegex: RegExp = /^\d+$/;
+  private fileExtensionRegex: RegExp = /^.+\.(jpg|jpeg|png|gif|pdf)$/;
+  private youtubeVideoIdRegex: RegExp =
+    /http:\/\/(?:youtu\.be\/|(?:[a-z]{2,3}\.)?youtube\.com\/watch(?:\?|#\!)v=([\w-]{11}).*)/gi;
 
-export class Randomizer {
-  alphabetRegex: RegExp;
-  emailRegex: RegExp;
-  passwordRegex: RegExp;
-  constructor() {
-    this.alphabetRegex = /^[a-zA-Z]$/;
-    this.emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    this.passwordRegex =
-      /^(?=.*[0-9])(?=.*[!@#$%^&*?_\-.,?!:;'“”()\[\]{}+\-×*÷\/=$&*@#%^_|/<>=])[a-zA-Z0-9!@#$%^&*?_\-.,?!:;'“”()\[\]{}+\-×*÷\/=$&*@#%^_|/<>=]{8,30}$/;
+  async isAlphabet(value: string): Promise<boolean> {
+    return this.alphabetRegex.test(value);
   }
 
-  async generateRandomNumber(length: number): Promise<number> {
-    if (length < 1) throw new Error("Length must be at least 1.");
-
-    const min = Math.pow(10, length - 1);
-    const max = Math.pow(10, length) - 1;
-
-    // Generate a random number in the range [min, max]
-    return Math.floor(min + Math.random() * (max - min + 1));
+  async isEmail(value: string): Promise<boolean> {
+    return this.emailRegex.test(value);
   }
 
-  async generateAlphanumericWord(
-    length: number,
-    characters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-  ): Promise<string> {
-    if (length < 4) {
-      throw new Error("Length must be greater or equal to 4");
-    }
-    let result = "";
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-
-    return result;
+  async isValidPassword(value: string): Promise<boolean> {
+    return this.passwordRegex.test(value);
   }
 
-  async generateAlphanumericWithSymbols(
-    length: number,
-    characters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?"
-  ): Promise<string> {
-    let result= '';
-    if (length < 4) {
-      throw new Error("Length must be greater or equal to 4");
-    }
-
-    const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-    const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    // Ensure at least one symbol is included
-    //result = symbols[Math.floor(Math.random() * symbols.length)];
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
-
-    /* if (!this.alphabetRegex.test(result[0])) {
-      result = alphabets[Math.floor(Math.random() * alphabets.length)] + result;
-    } */
-
-    return result;
+  async isValidUsername(value: string): Promise<boolean> {
+    return this.usernameRegex.test(value);
   }
 
-  async generateUsername(firstName: string, lastName: string): Promise<string> {
-    if (!firstName || !lastName) {
-      throw new Error("First Name and Last Name are required");
-    }
-
-    const lowerFirstName = firstName.toLowerCase();
-    const lowerLastName = lastName.toLowerCase();
-
-    const baseUsername = lowerFirstName + lowerLastName;
-
-    const randomNum = Math.floor(Math.random() * 900) + 100;
-
-    const username = baseUsername + randomNum;
-
-    return username;
+  async isValidURL(value: string): Promise<boolean> {
+    return this.urlRegex.test(value);
   }
 
-  async generatePassword(difficulty: string): Promise<string> {
-    let length;
-    let characters = "";
-
-    switch (difficulty) {
-      case "easy":
-        length = 8;
-        characters = "abcdefghijklmnopqrstuvwxyz";
-        break;
-      case "medium":
-        length = 12;
-        characters =
-          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        break;
-      case "hard":
-        length = 20;
-        characters =
-          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
-        break;
-      default:
-        throw new Error(
-          "Invalid difficulty level. Choose 'easy', 'medium', or 'hard'."
-        );
-    }
-
-    let password = "";
-
-    if (difficulty !== "easy") {
-      password += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 26)];
-      password += "0123456789"[Math.floor(Math.random() * 10)];
-      password += "!@#$%^&*()_+-=[]{}|;:,.<>?"[Math.floor(Math.random() * 32)];
-    }
-
-    for (let i = password.length; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      password += characters[randomIndex];
-    }
-
-    // Shuffle the password to ensure randomness
-    password = password
-      .split("")
-      .sort(() => Math.random() - 0.5)
-      .join("");
-
-    return password;
+  async isValidPhone(value: string): Promise<boolean> {
+    return this.phoneRegex.test(value);
   }
 
-  async isEmail(email: string): Promise<boolean> {
-    const isEmail = this.emailRegex.test(email);
-
-    return isEmail;
+  async isValidDate(value: string): Promise<boolean> {
+    return this.dateRegex.test(value);
   }
 
-  async isValidPassword(password: string): Promise<boolean> {
-    const isValidPassword = this.passwordRegex.test(password);
-
-    return isValidPassword;
+  async isValidTime(value: string): Promise<boolean> {
+    return this.timeRegex.test(value);
   }
 
-  async isValidPhoneNumber(phoneNumber: string): Promise<boolean> {
-    let isValidPhoneNumber;
-    //"+14155552671";
-    const phoneInfo = parsePhoneNumber(phoneNumber, "US");
+  async isValidIP(value: string): Promise<boolean> {
+    return this.ipRegex.test(value);
+  }
 
-    if (phoneInfo.isValid()) {
-      isValidPhoneNumber = true;
-    } else {
-      isValidPhoneNumber = false;
-    }
+  async isValidHexColor(value: string): Promise<boolean> {
+    return this.hexColorRegex.test(value);
+  }
 
-    return isValidPhoneNumber;
+  async isValidCreditCard(value: string): Promise<boolean> {
+    return this.creditCardRegex.test(value);
+  }
+
+  async isValidZipCode(value: string): Promise<boolean> {
+    return this.zipCodeRegex.test(value);
+  }
+
+  async isValidSSN(value: string): Promise<boolean> {
+    return this.ssnRegex.test(value);
+  }
+
+  async isValidIPv6(value: string): Promise<boolean> {
+    return this.ipv6Regex.test(value);
+  }
+
+  async isValidWindowsPath(value: string): Promise<boolean> {
+    return this.windowsPathRegex.test(value);
+  }
+
+  async isValidUnixPath(value: string): Promise<boolean> {
+    return this.unixPathRegex.test(value);
+  }
+
+  async isValidSlug(value: string): Promise<boolean> {
+    return this.slugRegex.test(value);
+  }
+
+  async containsHTMLTag(value: string): Promise<boolean> {
+    return this.htmlTagRegex.test(value);
+  }
+
+  async containsOnlyLettersAndSpaces(value: string): Promise<boolean> {
+    return this.lettersAndSpacesRegex.test(value);
+  }
+
+  async containsOnlyNumbers(value: string): Promise<boolean> {
+    return this.numbersOnlyRegex.test(value);
+  }
+
+  async isValidFileExtension(filename: string): Promise<boolean> {
+    return this.fileExtensionRegex.test(filename);
+  }
+
+  async extractYouTubeVideoId(url: string): Promise<string | null> {
+    const match = url.match(this.youtubeVideoIdRegex);
+    return match ? match[1] : null;
   }
 }
