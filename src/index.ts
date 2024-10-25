@@ -1,6 +1,6 @@
 import { parsePhoneNumber } from "libphonenumber-js";
 
-export default class Randomizer {
+export class Randomizer {
   alphabetRegex: RegExp;
   emailRegex: RegExp;
   passwordRegex: RegExp;

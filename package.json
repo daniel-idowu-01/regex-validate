@@ -1,6 +1,6 @@
 {
   "name": "randomizer-val",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A package to generate alphanumerics and to validate",
   "main": "dist/index.js",
   "publishConfig": {

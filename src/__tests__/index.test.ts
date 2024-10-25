@@ -1,4 +1,4 @@
-import Randomizer from "../index";
+import { Randomizer } from "../index";
 
 describe('Randomizer', () => {
   let randomizer: Randomizer;
