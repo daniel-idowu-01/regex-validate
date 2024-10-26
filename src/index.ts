@@ -32,6 +32,33 @@ export class Validator {
   private fileExtensionRegex: RegExp = /^.+\.(jpg|jpeg|png|gif|pdf)$/;
   private youtubeVideoIdRegex: RegExp =
     /http:\/\/(?:youtu\.be\/|(?:[a-z]{2,3}\.)?youtube\.com\/watch(?:\?|#\!)v=([\w-]{11}).*)/gi;
+  private decimalRegex: RegExp = /^\d*\.?\d+$/;
+  private negativeDecimalRegex: RegExp = /^-?\d*\.?\d+$/;
+  private currencyUSDRegex: RegExp = /^\$\d{1,3}(,\d{3})*(\.\d{2})?$/;
+  private percentageRegex: RegExp = /^100(\.0{1,2})?$|^\d{1,2}(\.\d{1,2})?$/;
+  private phoneUSRegex: RegExp =
+    /^\+?1?\s*\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/;
+  private phoneInternationalRegex: RegExp = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+  private date_YYYYMMDD_Regex: RegExp =
+    /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+  private date_DDMMYYYY_Regex: RegExp =
+    /^(0[1-9]|[12]\d|3[01])[- /.](0[1-9]|1[0-2])[- /.]\d{4}$/;
+  private time24HRegex: RegExp = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+  private time12HRegex: RegExp = /^(0?[1-9]|1[0-2]):[0-5][0-9] ?[AaPp][Mm]$/;
+  private dateTime_ISO8601_Regex: RegExp =
+    /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/;
+  private domainRegex: RegExp =
+    /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+  private macAddressRegex: RegExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
+  private latitudeRegex: RegExp =
+    /^(-?[1-8]?\d(?:\.\d{1,6})?|90(?:\.0{1,6})?)$/;
+  private longitudeRegex: RegExp =
+    /^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,6})?|180(?:\.0{1,6})?)$/;
+  private ssnUSRegex: RegExp =
+    /^(?!000|666)[0-8][0-9]{2}-(?!00)[0-9]{2}-(?!0000)[0-9]{4}$/;
+  private zipUSRegex: RegExp = /^\d{5}(-\d{4})?$/;
+  private noSpecialCharRegex: RegExp = /^[A-Za-z0-9\s]*$/;
+  private noConsecutiveSpacesRegex: RegExp = /^(?!.*\s{2})[A-Za-z0-9\s]*$/;
 
   async isAlphabet(value: string): Promise<boolean> {
     return this.alphabetRegex.test(value);
@@ -120,5 +147,81 @@ export class Validator {
   async extractYouTubeVideoId(url: string): Promise<string | null> {
     const match = url.match(this.youtubeVideoIdRegex);
     return match ? match[1] : null;
+  }
+
+  async isValidDecimal(input: string): Promise<boolean> {
+    return this.decimalRegex.test(input);
+  }
+
+  async isValidNegativeDecimal(input: string): Promise<boolean> {
+    return this.negativeDecimalRegex.test(input);
+  }
+
+  async isValidCurrencyUSD(input: string): Promise<boolean> {
+    return this.currencyUSDRegex.test(input);
+  }
+
+  async isValidPercentage(input: string): Promise<boolean> {
+    return this.percentageRegex.test(input);
+  }
+
+  async isValidPhoneUS(input: string): Promise<boolean> {
+    return this.phoneUSRegex.test(input);
+  }
+
+  async isValidPhoneInternational(input: string): Promise<boolean> {
+    return this.phoneInternationalRegex.test(input);
+  }
+
+  async isValidDateYYYYMMDD(input: string): Promise<boolean> {
+    return this.date_YYYYMMDD_Regex.test(input);
+  }
+
+  async isValidDateDDMMYYYY(input: string): Promise<boolean> {
+    return this.date_DDMMYYYY_Regex.test(input);
+  }
+
+  async isValidTime24H(input: string): Promise<boolean> {
+    return this.time24HRegex.test(input);
+  }
+
+  async isValidTime12H(input: string): Promise<boolean> {
+    return this.time12HRegex.test(input);
+  }
+
+  async isValidDateTimeISO8601(input: string): Promise<boolean> {
+    return this.dateTime_ISO8601_Regex.test(input);
+  }
+
+  async isValidDomain(input: string): Promise<boolean> {
+    return this.domainRegex.test(input);
+  }
+
+  async isValidMacAddress(input: string): Promise<boolean> {
+    return this.macAddressRegex.test(input);
+  }
+
+  async isValidLatitude(input: string): Promise<boolean> {
+    return this.latitudeRegex.test(input);
+  }
+
+  async isValidLongitude(input: string): Promise<boolean> {
+    return this.longitudeRegex.test(input);
+  }
+
+  async isValidSSNUS(input: string): Promise<boolean> {
+    return this.ssnUSRegex.test(input);
+  }
+
+  async isValidZipUS(input: string): Promise<boolean> {
+    return this.zipUSRegex.test(input);
+  }
+
+  async isValidNoSpecialChar(input: string): Promise<boolean> {
+    return this.noSpecialCharRegex.test(input);
+  }
+
+  async isValidNoConsecutiveSpaces(input: string): Promise<boolean> {
+    return this.noConsecutiveSpacesRegex.test(input);
   }
 }
