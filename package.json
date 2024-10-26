@@ -1,7 +1,7 @@
 {
-  "name": "randomizer-val",
+  "name": "regex-validate",
   "version": "1.0.3",
-  "description": "A package to generate alphanumerics and to validate",
+  "description": "A comprehensive TypeScript validation utility class that provides a wide range of validation methods using regular expressions. This class offers validation for common data formats including emails, passwords, dates, phone numbers, and various other standard formats.",
   "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
@@ -22,9 +22,6 @@
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.3"
-  },
-  "dependencies": {
-    "libphonenumber-js": "^1.11.12"
   },
   "repository": {
     "type": "git",
