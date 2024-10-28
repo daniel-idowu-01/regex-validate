@@ -9,9 +9,9 @@ export class Validator {
   private urlRegex: RegExp =
     /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/[^\s]*)?$/;
   private phoneRegex: RegExp =
-    /^\+?(?:\d{1,3})?[-.\s]?(\(?\d{1,4}\)?)?[-.\s]?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})?$/;
+    /^\+?(?:\d{1,3})?[-.\s]?(\(?\d{1,4}\)?)?[-.\s]?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,4})$/;
   private dateRegex: RegExp =
-    /^(?:19|20)\d\d-(?:(0[1-9]|1[0-2])-(?:(0[1-9]|[12]\d|3[01]|29(?=-02(?=\d{2}(0[48]|[2468][048]|[13579][26]|00)|-(0[1,3,5,7,8]))|28(?=-02(?!\d{2}(0[48]|[2468][048]|[13579][26]|00))))))|(0[1-9]|[12]\d|30(?=-04|-06|-09|-11)))$/;
+    /^(?:(?!0000)\d{4})-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31|02-29)$/;
   private timeRegex: RegExp = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
   private ipRegex: RegExp =
     /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
@@ -24,17 +24,18 @@ export class Validator {
   private ipv6Regex: RegExp =
     /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
   private windowsPathRegex: RegExp =
-    /^[a-zA-Z]:\\(?:[^\\/:?"<>|\r\n]+\\)[^\\/:?"<>|\r\n]$/;
-  private unixPathRegex: RegExp = /^(\/[^/ ]*)+\/?$/;
+    /^[a-zA-Z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\r\n]*$/;
+  private unixPathRegex: RegExp = /^\/(?:[^/\0]+\/)*[^/\0]*$/;
   private slugRegex: RegExp = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-  private htmlTagRegex: RegExp = /<[^>]*>/g;
+  private htmlTagRegex: RegExp =
+    /<([a-z]+)(\s[^>]*)?>.*?<\/\1>|<([a-z]+)(\s[^>]*)?\/?>/i;
   private lettersAndSpacesRegex: RegExp = /^[A-Za-z\s]*$/;
   private numbersOnlyRegex: RegExp = /^\d+$/;
   private fileExtensionRegex: RegExp = /^[^/]+?\.(jpg|jpeg|png|gif|pdf)$/;
   private youtubeVideoIdRegex: RegExp =
     /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|(?:[a-z]{2,3}\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=|.+\/|.*[?&]v=))([\w-]{11})/;
   private decimalRegex: RegExp = /^\d+\.\d+$/;
-  private negativeDecimalRegex: RegExp = /^-\d*\.?0*$|^-\d+\.$|^-0+\d*\.?$/;
+  private negativeDecimalRegex: RegExp = /^-\d+\.\d+$/;
   private currencyUSDRegex: RegExp = /^\$\d{1,3}(,\d{3})*(\.\d{2})?$/;
   private percentageRegex: RegExp = /^(100(\.00?)?|[1-9]?\d(\.\d{1,2})?)%?$/;
   private date_YYYYMMDD_Regex: RegExp =
@@ -46,12 +47,11 @@ export class Validator {
   private dateTime_ISO8601_Regex: RegExp =
     /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/;
   private domainRegex: RegExp =
-    /^(?!-)[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z]{2,}$/;
+    /^(?!-)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}(?<!-)$/;
   private macAddressRegex: RegExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
-  private latitudeRegex: RegExp =
-    /^(-?[1-8]?\d(?:\.\d{1,6})?|90(?:\.0{1,6})?)$/;
+  private latitudeRegex: RegExp = /^-?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
   private longitudeRegex: RegExp =
-    /^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,6})?|180(?:\.0{1,6})?)$/;
+    /^-?(180(\.0+)?|1[0-7]\d(\.\d+)?|[1-9]?\d(\.\d+)?)$/;
   private noSpecialCharRegex: RegExp = /^[A-Za-z0-9\s]*$/;
   private noConsecutiveSpacesRegex: RegExp = /^(?!.*\s{2})[A-Za-z0-9\s]*$/;
 
