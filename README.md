@@ -35,7 +35,7 @@ const validator = new Validator();
 
 - isAlphabet(value: string): Validates single alphabetic characters
 - containsOnlyLettersAndSpaces(value: string): Validates strings with only letters and spaces
-- containsOnlyNumbers(value: string): Validates numeric-only strings
+- containsOnlyNumbers(value: string or number): Validates numeric-only strings
 - isValidNoSpecialChar(value: string): Validates strings without special characters
 - isValidNoConsecutiveSpaces(value: string): Validates strings without consecutive
 
@@ -45,7 +45,6 @@ const validator = new Validator();
 - isValidPassword(value: string): Validates strong passwords
 - isValidUsername(value: string): Validates usernames
 - isValidSSN(value: string): Validates Social Security Numbers
-- isValidSSNUS(value: string): Validates US-specific SSN format
 
 ### Web-Related Validation
 
@@ -67,16 +66,14 @@ const validator = new Validator();
 
 ### Number and Currency Validation
 
-- isValidDecimal(value: string): Validates decimal numbers
+- isValidDecimal(value: string or number): Validates decimal numbers
 - isValidNegativeDecimal(value: string): Validates negative decimal numbers
 - isValidCurrencyUSD(value: string): Validates USD currency format
 - isValidPercentage(value: string): Validates percentage values
 
 ### Phone Number Validation
 
-- isValidPhone(value: string): Validates general phone numbers
-- isValidPhoneUS(value: string): Validates US phone numbers
-- isValidPhoneInternational(value: string): Validates international phone numbers
+- isValidPhone(value: string): Validates phone numbers
 
 ### Technical Validation
 
@@ -91,7 +88,6 @@ const validator = new Validator();
 - isValidLatitude(value: string): Validates latitude coordinates
 - isValidLongitude(value: string): Validates longitude coordinates
 - isValidZipCode(value: string): Validates zip codes
-- isValidZipUS(value: string): Validates US-specific zip codes
 
 ### File and Color Validation
 
@@ -159,7 +155,7 @@ Please ensure that any new validators follow the existing pattern of:
 - Following the established naming conventions
 
 ## License
-MIT © Idowu Daniel
+ISC © Idowu Daniel
 ```bash
 This `README.md` provides detailed instructions for using the package's main features, installation steps, and information on testing and licensing.
 ```

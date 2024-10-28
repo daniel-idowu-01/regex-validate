@@ -4,19 +4,20 @@ export class Validator {
   private emailRegex: RegExp =
     /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   private passwordRegex: RegExp =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
-  private usernameRegex: RegExp = /^[a-zA-Z0-9_]{3,16}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#()])[A-Za-z\d@$!%*?&^#()]{8,}$/;
+  private usernameRegex: RegExp = /^[a-zA-Z_][a-zA-Z0-9_]{2,15}$/;
   private urlRegex: RegExp =
-    /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-])\/?$/;
+    /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/[^\s]*)?$/;
   private phoneRegex: RegExp =
-    /^\+?1?\s*\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/;
-  private dateRegex: RegExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+    /^\+?(?:\d{1,3})?[-.\s]?(\(?\d{1,4}\)?)?[-.\s]?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})?$/;
+  private dateRegex: RegExp =
+    /^(?:19|20)\d\d-(?:(0[1-9]|1[0-2])-(?:(0[1-9]|[12]\d|3[01]|29(?=-02(?=\d{2}(0[48]|[2468][048]|[13579][26]|00)|-(0[1,3,5,7,8]))|28(?=-02(?!\d{2}(0[48]|[2468][048]|[13579][26]|00))))))|(0[1-9]|[12]\d|30(?=-04|-06|-09|-11)))$/;
   private timeRegex: RegExp = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
   private ipRegex: RegExp =
     /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
   private hexColorRegex: RegExp = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
   private creditCardRegex: RegExp =
-    /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})$/;
+    /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})[- ]?(\d{4})?$/;
   private zipCodeRegex: RegExp = /^\d{5}(-\d{4})?$/;
   private ssnRegex: RegExp =
     /^(?!000|666)[0-8][0-9]{2}-(?!00)[0-9]{2}-(?!0000)[0-9]{4}$/;
@@ -29,16 +30,13 @@ export class Validator {
   private htmlTagRegex: RegExp = /<[^>]*>/g;
   private lettersAndSpacesRegex: RegExp = /^[A-Za-z\s]*$/;
   private numbersOnlyRegex: RegExp = /^\d+$/;
-  private fileExtensionRegex: RegExp = /^.+\.(jpg|jpeg|png|gif|pdf)$/;
+  private fileExtensionRegex: RegExp = /^[^/]+?\.(jpg|jpeg|png|gif|pdf)$/;
   private youtubeVideoIdRegex: RegExp =
-    /http:\/\/(?:youtu\.be\/|(?:[a-z]{2,3}\.)?youtube\.com\/watch(?:\?|#\!)v=([\w-]{11}).*)/gi;
-  private decimalRegex: RegExp = /^\d*\.?\d+$/;
-  private negativeDecimalRegex: RegExp = /^-?\d*\.?\d+$/;
+    /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|(?:[a-z]{2,3}\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=|.+\/|.*[?&]v=))([\w-]{11})/;
+  private decimalRegex: RegExp = /^\d+\.\d+$/;
+  private negativeDecimalRegex: RegExp = /^-\d*\.?0*$|^-\d+\.$|^-0+\d*\.?$/;
   private currencyUSDRegex: RegExp = /^\$\d{1,3}(,\d{3})*(\.\d{2})?$/;
-  private percentageRegex: RegExp = /^100(\.0{1,2})?$|^\d{1,2}(\.\d{1,2})?$/;
-  private phoneUSRegex: RegExp =
-    /^\+?1?\s*\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/;
-  private phoneInternationalRegex: RegExp = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+  private percentageRegex: RegExp = /^(100(\.00?)?|[1-9]?\d(\.\d{1,2})?)%?$/;
   private date_YYYYMMDD_Regex: RegExp =
     /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
   private date_DDMMYYYY_Regex: RegExp =
@@ -48,15 +46,12 @@ export class Validator {
   private dateTime_ISO8601_Regex: RegExp =
     /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/;
   private domainRegex: RegExp =
-    /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+    /^(?!-)[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z]{2,}$/;
   private macAddressRegex: RegExp = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
   private latitudeRegex: RegExp =
     /^(-?[1-8]?\d(?:\.\d{1,6})?|90(?:\.0{1,6})?)$/;
   private longitudeRegex: RegExp =
     /^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,6})?|180(?:\.0{1,6})?)$/;
-  private ssnUSRegex: RegExp =
-    /^(?!000|666)[0-8][0-9]{2}-(?!00)[0-9]{2}-(?!0000)[0-9]{4}$/;
-  private zipUSRegex: RegExp = /^\d{5}(-\d{4})?$/;
   private noSpecialCharRegex: RegExp = /^[A-Za-z0-9\s]*$/;
   private noConsecutiveSpacesRegex: RegExp = /^(?!.*\s{2})[A-Za-z0-9\s]*$/;
 
@@ -101,7 +96,36 @@ export class Validator {
   }
 
   async isValidCreditCard(value: string): Promise<boolean> {
-    return this.creditCardRegex.test(value);
+    if (!this.creditCardRegex.test(value)) {
+      return false;
+    }
+
+    // Luhn algorithm implementation
+    const sanitizedNumber = value.replace(/\D/g, "");
+
+    if (sanitizedNumber.length < 2) {
+      return false;
+    }
+
+    let sum = 0;
+    let shouldDouble = false;
+
+    // Process digits from right to left
+    for (let i = sanitizedNumber.length - 1; i >= 0; i--) {
+      let digit = parseInt(sanitizedNumber.charAt(i), 10);
+
+      if (shouldDouble) {
+        digit *= 2;
+        if (digit > 9) {
+          digit -= 9;
+        }
+      }
+
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+
+    return sum % 10 === 0;
   }
 
   async isValidZipCode(value: string): Promise<boolean> {
@@ -149,79 +173,63 @@ export class Validator {
     return match ? match[1] : null;
   }
 
-  async isValidDecimal(input: string): Promise<boolean> {
-    return this.decimalRegex.test(input);
+  async isValidDecimal(value: string): Promise<boolean> {
+    return this.decimalRegex.test(value);
   }
 
-  async isValidNegativeDecimal(input: string): Promise<boolean> {
-    return this.negativeDecimalRegex.test(input);
+  async isValidNegativeDecimal(value: string): Promise<boolean> {
+    return this.negativeDecimalRegex.test(value);
   }
 
-  async isValidCurrencyUSD(input: string): Promise<boolean> {
-    return this.currencyUSDRegex.test(input);
+  async isValidCurrencyUSD(value: string): Promise<boolean> {
+    return this.currencyUSDRegex.test(value);
   }
 
-  async isValidPercentage(input: string): Promise<boolean> {
-    return this.percentageRegex.test(input);
+  async isValidPercentage(value: string): Promise<boolean> {
+    return this.percentageRegex.test(value);
   }
 
-  async isValidPhoneUS(input: string): Promise<boolean> {
-    return this.phoneUSRegex.test(input);
+  async isValidDateYYYYMMDD(value: string): Promise<boolean> {
+    return this.date_YYYYMMDD_Regex.test(value);
   }
 
-  async isValidPhoneInternational(input: string): Promise<boolean> {
-    return this.phoneInternationalRegex.test(input);
+  async isValidDateDDMMYYYY(value: string): Promise<boolean> {
+    return this.date_DDMMYYYY_Regex.test(value);
   }
 
-  async isValidDateYYYYMMDD(input: string): Promise<boolean> {
-    return this.date_YYYYMMDD_Regex.test(input);
+  async isValidTime24H(value: string): Promise<boolean> {
+    return this.time24HRegex.test(value);
   }
 
-  async isValidDateDDMMYYYY(input: string): Promise<boolean> {
-    return this.date_DDMMYYYY_Regex.test(input);
+  async isValidTime12H(value: string): Promise<boolean> {
+    return this.time12HRegex.test(value);
   }
 
-  async isValidTime24H(input: string): Promise<boolean> {
-    return this.time24HRegex.test(input);
+  async isValidDateTimeISO8601(value: string): Promise<boolean> {
+    return this.dateTime_ISO8601_Regex.test(value);
   }
 
-  async isValidTime12H(input: string): Promise<boolean> {
-    return this.time12HRegex.test(input);
+  async isValidDomain(value: string): Promise<boolean> {
+    return this.domainRegex.test(value);
   }
 
-  async isValidDateTimeISO8601(input: string): Promise<boolean> {
-    return this.dateTime_ISO8601_Regex.test(input);
+  async isValidMacAddress(value: string): Promise<boolean> {
+    return this.macAddressRegex.test(value);
   }
 
-  async isValidDomain(input: string): Promise<boolean> {
-    return this.domainRegex.test(input);
+  async isValidLatitude(value: string): Promise<boolean> {
+    return this.latitudeRegex.test(value);
   }
 
-  async isValidMacAddress(input: string): Promise<boolean> {
-    return this.macAddressRegex.test(input);
+  async isValidLongitude(value: string): Promise<boolean> {
+    return this.longitudeRegex.test(value);
   }
 
-  async isValidLatitude(input: string): Promise<boolean> {
-    return this.latitudeRegex.test(input);
+  async noSpecialCharacter(value: string): Promise<boolean> {
+    return this.noSpecialCharRegex.test(value);
   }
 
-  async isValidLongitude(input: string): Promise<boolean> {
-    return this.longitudeRegex.test(input);
-  }
-
-  async isValidSSNUS(input: string): Promise<boolean> {
-    return this.ssnUSRegex.test(input);
-  }
-
-  async isValidZipUS(input: string): Promise<boolean> {
-    return this.zipUSRegex.test(input);
-  }
-
-  async isValidNoSpecialChar(input: string): Promise<boolean> {
-    return this.noSpecialCharRegex.test(input);
-  }
-
-  async isValidNoConsecutiveSpaces(input: string): Promise<boolean> {
-    return this.noConsecutiveSpacesRegex.test(input);
+  async noConsecutiveSpaces(value: string): Promise<boolean> {
+    return this.noConsecutiveSpacesRegex.test(value);
   }
 }
