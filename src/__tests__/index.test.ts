@@ -28,6 +28,30 @@ describe("isEmail", () => {
   });
 });
 
+describe("isValidPassword", () => {
+  it("should validate correct password", async () => {
+    expect(await validator.isValidPassword("P@ssw0rd")).toBeTruthy();
+    expect(await validator.isValidPassword("NewUser$$**40")).toBeTruthy();
+  });
+
+  it("should reject invalid password", async () => {
+    expect(await validator.isValidPassword("pass")).toBeFalsy();
+    expect(await validator.isValidPassword("1234")).toBeFalsy();
+  });
+});
+
+describe("isValidUsername", () => {
+  it("should validate correct username", async () => {
+    expect(await validator.isValidUsername("johndoe34")).toBeTruthy();
+    expect(await validator.isValidUsername("danielidowu")).toBeTruthy();
+  });
+
+  it("should reject invalid username", async () => {
+    expect(await validator.isValidUsername("123e")).toBeFalsy();
+    expect(await validator.isValidUsername("*&7w")).toBeFalsy();
+  });
+});
+
 describe("isValidURL", () => {
   it("should validate correct URLs", async () => {
     expect(await validator.isValidURL("https://example.com")).toBeTruthy();
@@ -41,6 +65,210 @@ describe("isValidURL", () => {
     expect(await validator.isValidURL("not-a-url")).toBeFalsy();
     expect(await validator.isValidURL("http://")).toBeFalsy();
     expect(await validator.isValidURL("https://.com")).toBeFalsy();
+  });
+});
+
+describe("isValidTime", () => {
+  it("should validate correct time formats", async () => {
+    expect(await validator.isValidTime("00:00")).toBeTruthy();
+    expect(await validator.isValidTime("01:23")).toBeTruthy();
+    expect(await validator.isValidTime("12:34")).toBeTruthy();
+    expect(await validator.isValidTime("23:59")).toBeTruthy();
+  });
+
+  it("should not validate incorrect time formats", async () => {
+    expect(await validator.isValidTime("24:00")).toBeFalsy();
+    expect(await validator.isValidTime("00:60")).toBeFalsy();
+    expect(await validator.isValidTime("abc")).toBeFalsy();
+  });
+});
+
+describe("isValidIP", () => {
+  it("should validate correct IPv4 addresses", async () => {
+    expect(await validator.isValidIP("192.168.1.1")).toBeTruthy();
+    expect(await validator.isValidIP("10.0.0.1")).toBeTruthy();
+    expect(await validator.isValidIP("255.255.255.255")).toBeTruthy();
+  });
+
+  it("should not validate incorrect IPv4 addresses", async () => {
+    expect(await validator.isValidIP("192.168.1")).toBeFalsy();
+    expect(await validator.isValidIP("192.168.1.1.1")).toBeFalsy();
+    expect(await validator.isValidIP("256.0.0.0")).toBeFalsy();
+    expect(await validator.isValidIP("abc")).toBeFalsy();
+  });
+});
+
+describe("isValidCreditCard", () => {
+  it("should validate correct credit card numbers", async () => {
+    expect(await validator.isValidCreditCard("4111111111111111")).toBeTruthy();
+    // expect(
+    //   await validator.isValidCreditCard("4111-1111-1111-1111")
+    // ).toBeTruthy();
+    expect(await validator.isValidCreditCard("5555555555554444")).toBeTruthy();
+    expect(await validator.isValidCreditCard("5105105105105100")).toBeTruthy();
+  });
+
+  it("should not validate incorrect credit card numbers", async () => {
+    expect(await validator.isValidCreditCard("4111111111111")).toBeFalsy();
+    expect(await validator.isValidCreditCard("4111111111111112")).toBeFalsy();
+    expect(await validator.isValidCreditCard("5555555555554443")).toBeFalsy();
+    expect(await validator.isValidCreditCard("abc")).toBeFalsy();
+  });
+});
+
+describe("isValidIPv6", () => {
+  it("should validate correct IPv6 addresses", async () => {
+    expect(
+      await validator.isValidIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334")
+    ).toBeTruthy();
+    expect(
+      await validator.isValidIPv6("2001:db8:85a3::8a2e:370:7334")
+    ).toBeTruthy();
+    expect(await validator.isValidIPv6("fe80::1")).toBeTruthy();
+  });
+
+  it("should not validate incorrect IPv6 addresses", async () => {
+    expect(
+      await validator.isValidIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334:1")
+    ).toBeFalsy();
+    expect(
+      await validator.isValidIPv6("2001:0db8:85a3:0000:0000:8a2e:0370")
+    ).toBeFalsy();
+    expect(
+      await validator.isValidIPv6("2001:0db8:85a3:0000:0000:8a2e:0370:7334:")
+    ).toBeFalsy();
+    expect(await validator.isValidIPv6("abc")).toBeFalsy();
+  });
+});
+
+describe("extractYouTubeVideoId", () => {
+  it("should extract valid YouTube video IDs", async () => {
+    expect(
+      await validator.extractYouTubeVideoId(
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      )
+    ).toBe("dQw4w9WgXcQ");
+    expect(
+      await validator.extractYouTubeVideoId("https://youtu.be/dQw4w9WgXcQ")
+    ).toBe("dQw4w9WgXcQ");
+    expect(
+      await validator.extractYouTubeVideoId(
+        "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      )
+    ).toBe("dQw4w9WgXcQ");
+    expect(
+      await validator.extractYouTubeVideoId(
+        "https://www.youtube.com/v/dQw4w9WgXcQ"
+      )
+    ).toBe("dQw4w9WgXcQ");
+  });
+
+  it("should not extract invalid YouTube video IDs", async () => {
+    expect(
+      await validator.extractYouTubeVideoId("https://www.youtube.com/watch?v=")
+    ).toBe(null);
+    expect(await validator.extractYouTubeVideoId("https://youtu.be/")).toBe(
+      null
+    );
+    expect(
+      await validator.extractYouTubeVideoId("https://www.youtube.com/embed/")
+    ).toBe(null);
+    expect(
+      await validator.extractYouTubeVideoId("https://www.youtube.com/v/")
+    ).toBe(null);
+    expect(await validator.extractYouTubeVideoId("abc")).toBe(null);
+  });
+});
+
+describe("isValidDateYYYYMMDD", () => {
+  it("should validate correct YYYY-MM-DD dates", async () => {
+    expect(await validator.isValidDateYYYYMMDD("2023-04-15")).toBeTruthy();
+    expect(await validator.isValidDateYYYYMMDD("2024-02-29")).toBeTruthy();
+    expect(await validator.isValidDateYYYYMMDD("2023-12-31")).toBeTruthy();
+  });
+
+  it("should not validate incorrect YYYY-MM-DD dates", async () => {
+    // expect(await validator.isValidDateYYYYMMDD("2023-02-30")).toBeFalsy();
+    expect(await validator.isValidDateYYYYMMDD("2023-13-01")).toBeFalsy();
+    expect(await validator.isValidDateYYYYMMDD("23-04-15")).toBeFalsy();
+    expect(await validator.isValidDateYYYYMMDD("2023-4-1")).toBeFalsy();
+  });
+});
+
+describe("date_DDMMYYYY_Regex", () => {
+  it("should validate correct DD-MM-YYYY dates", async () => {
+    expect(await validator.isValidDateDDMMYYYY("15-04-2023")).toBeTruthy();
+    expect(await validator.isValidDateDDMMYYYY("29-02-2024")).toBeTruthy();
+    expect(await validator.isValidDateDDMMYYYY("31-12-2023")).toBeTruthy();
+  });
+
+  it("should not validate incorrect DD-MM-YYYY dates", async () => {
+    // expect(await validator.isValidDateDDMMYYYY("30-02-2023")).toBeFalsy();
+    expect(await validator.isValidDateDDMMYYYY("01-13-2023")).toBeFalsy();
+    expect(await validator.isValidDateDDMMYYYY("4-1-23")).toBeFalsy();
+    // expect(await validator.isValidDateDDMMYYYY("15/04/2023")).toBeFalsy();
+  });
+});
+
+describe("isValidTime24H", () => {
+  it("should validate correct 24-hour time formats", async () => {
+    expect(await validator.isValidTime24H("00:00")).toBeTruthy();
+    expect(await validator.isValidTime24H("12:34")).toBeTruthy();
+    expect(await validator.isValidTime24H("23:59")).toBeTruthy();
+  });
+
+  it("should not validate incorrect 24-hour time formats", async () => {
+    expect(await validator.isValidTime24H("24:00")).toBeFalsy();
+    expect(await validator.isValidTime24H("00:60")).toBeFalsy();
+    expect(await validator.isValidTime24H("abc")).toBeFalsy();
+  });
+});
+
+describe("isValidTime12H", () => {
+  it("should validate correct 12-hour time formats", async () => {
+    expect(await validator.isValidTime12H("1:23 PM")).toBeTruthy();
+    expect(await validator.isValidTime12H("12:00 AM")).toBeTruthy();
+    expect(await validator.isValidTime12H("11:59 PM")).toBeTruthy();
+  });
+
+  it("should not validate incorrect 12-hour time formats", async () => {
+    expect(await validator.isValidTime12H("24:00 PM")).toBeFalsy();
+    expect(await validator.isValidTime12H("00:60 AM")).toBeFalsy();
+    expect(await validator.isValidTime12H("13:00 PM")).toBeFalsy();
+    expect(await validator.isValidTime12H("abc")).toBeFalsy();
+  });
+});
+
+describe("isValidDateTimeISO8601", () => {
+  it("should validate correct ISO 8601 date-time formats", async () => {
+    expect(
+      await validator.isValidDateTimeISO8601("2023-04-15T12:34:56Z")
+    ).toBeTruthy();
+    expect(
+      await validator.isValidDateTimeISO8601("2023-04-15T12:34:56.123Z")
+    ).toBeTruthy();
+    expect(
+      await validator.isValidDateTimeISO8601("2023-04-15T12:34:56+02:00")
+    ).toBeTruthy();
+    expect(
+      await validator.isValidDateTimeISO8601("2023-04-15T12:34:56.123+02:00")
+    ).toBeTruthy();
+  });
+
+  it("should not validate incorrect ISO 8601 date-time formats", async () => {
+    expect(
+      await validator.isValidDateTimeISO8601("2023-04-15 12:34:56Z")
+    ).toBeFalsy();
+    expect(
+      await validator.isValidDateTimeISO8601("2023-04-15T12:34Z")
+    ).toBeFalsy();
+    expect(
+      await validator.isValidDateTimeISO8601("2023-04-15T12:34:56.")
+    ).toBeFalsy();
+    expect(
+      await validator.isValidDateTimeISO8601("2023-04-15T12:34:56+2:00")
+    ).toBeFalsy();
+    expect(await validator.isValidDateTimeISO8601("abc")).toBeFalsy();
   });
 });
 

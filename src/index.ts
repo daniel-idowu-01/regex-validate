@@ -57,43 +57,43 @@ export class Validator {
 
   async isAlphabet(value: string): Promise<boolean> {
     return this.alphabetRegex.test(value);
-  }
+  } //
 
   async isEmail(value: string): Promise<boolean> {
     return this.emailRegex.test(value);
-  }
+  } //
 
   async isValidPassword(value: string): Promise<boolean> {
     return this.passwordRegex.test(value);
-  }
+  } //
 
   async isValidUsername(value: string): Promise<boolean> {
     return this.usernameRegex.test(value);
-  }
+  } //
 
   async isValidURL(value: string): Promise<boolean> {
     return this.urlRegex.test(value);
-  }
+  } //
 
   async isValidPhone(value: string): Promise<boolean> {
     return this.phoneRegex.test(value);
-  }
+  } //
 
   async isValidDate(value: string): Promise<boolean> {
     return this.dateRegex.test(value);
-  }
+  } //
 
   async isValidTime(value: string): Promise<boolean> {
     return this.timeRegex.test(value);
-  }
+  } // **
 
   async isValidIP(value: string): Promise<boolean> {
     return this.ipRegex.test(value);
-  }
+  } // **
 
   async isValidHexColor(value: string): Promise<boolean> {
     return this.hexColorRegex.test(value);
-  }
+  } //
 
   async isValidCreditCard(value: string): Promise<boolean> {
     if (!this.creditCardRegex.test(value)) {
@@ -126,68 +126,68 @@ export class Validator {
     }
 
     return sum % 10 === 0;
-  }
+  } // **
 
   async isValidZipCode(value: string): Promise<boolean> {
     return this.zipCodeRegex.test(value);
-  }
+  } //
 
   async isValidSSN(value: string): Promise<boolean> {
     return this.ssnRegex.test(value);
-  }
+  } //
 
   async isValidIPv6(value: string): Promise<boolean> {
     return this.ipv6Regex.test(value);
-  }
+  } // **
 
   async isValidWindowsPath(value: string): Promise<boolean> {
     return this.windowsPathRegex.test(value);
-  }
+  } //
 
   async isValidUnixPath(value: string): Promise<boolean> {
     return this.unixPathRegex.test(value);
-  }
+  } //
 
   async isValidSlug(value: string): Promise<boolean> {
     return this.slugRegex.test(value);
-  }
+  } //
 
   async containsHTMLTag(value: string): Promise<boolean> {
     return this.htmlTagRegex.test(value);
-  }
+  } //
 
   async containsOnlyLettersAndSpaces(value: string): Promise<boolean> {
     return this.lettersAndSpacesRegex.test(value);
-  }
+  } //
 
   async containsOnlyNumbers(value: string): Promise<boolean> {
     return this.numbersOnlyRegex.test(value);
-  }
+  } //
 
   async isValidFileExtension(filename: string): Promise<boolean> {
     return this.fileExtensionRegex.test(filename);
-  }
+  } //
 
   async extractYouTubeVideoId(url: string): Promise<string | null> {
     const match = url.match(this.youtubeVideoIdRegex);
     return match ? match[1] : null;
-  }
+  } //
 
   async isValidDecimal(value: string): Promise<boolean> {
     return this.decimalRegex.test(value);
-  }
+  } //
 
   async isValidNegativeDecimal(value: string): Promise<boolean> {
     return this.negativeDecimalRegex.test(value);
-  }
+  } //
 
   async isValidCurrencyUSD(value: string): Promise<boolean> {
     return this.currencyUSDRegex.test(value);
-  }
+  } //
 
   async isValidPercentage(value: string): Promise<boolean> {
     return this.percentageRegex.test(value);
-  }
+  } //
 
   async isValidDateYYYYMMDD(value: string): Promise<boolean> {
     return this.date_YYYYMMDD_Regex.test(value);
@@ -211,25 +211,25 @@ export class Validator {
 
   async isValidDomain(value: string): Promise<boolean> {
     return this.domainRegex.test(value);
-  }
+  } //
 
   async isValidMacAddress(value: string): Promise<boolean> {
     return this.macAddressRegex.test(value);
-  }
+  } //
 
   async isValidLatitude(value: string): Promise<boolean> {
     return this.latitudeRegex.test(value);
-  }
+  } //
 
   async isValidLongitude(value: string): Promise<boolean> {
     return this.longitudeRegex.test(value);
-  }
+  } //
 
   async noSpecialCharacter(value: string): Promise<boolean> {
     return this.noSpecialCharRegex.test(value);
-  }
+  } //
 
   async noConsecutiveSpaces(value: string): Promise<boolean> {
     return this.noConsecutiveSpacesRegex.test(value);
-  }
+  } //
 }
