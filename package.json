@@ -1,6 +1,6 @@
 {
   "name": "regex-validate",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A comprehensive validation utility class that provides a wide range of validation methods using regular expressions. This class offers validation for common data formats including emails, passwords, dates, phone numbers, and various other standard formats.",
   "main": "dist/index.js",
   "publishConfig": {
@@ -25,6 +25,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/daniel-idowu-01/randomizer.git"
+    "url": "https://github.com/daniel-idowu-01/regex-validate"
   }
 }
