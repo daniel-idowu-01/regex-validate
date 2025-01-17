@@ -29,7 +29,7 @@ const validator = new Validator();
 
 ## Usage
 
-### Avaliable Validators
+## Avaliable Validators
 
 #### Basic Validation
 
